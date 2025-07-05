@@ -6,7 +6,7 @@ export default async function handler(req, res) {
     try {
         let body = req.body;
 
-        // If body is string, parse it safely
+        // Handle raw JSON strings if needed
         if (typeof body === "string") {
             body = JSON.parse(body);
         }
@@ -23,7 +23,9 @@ export default async function handler(req, res) {
             return res.status(400).json({ error: 'Failed to fetch image', status: imgResponse.status });
         }
 
-        const imgBuffer = await imgResponse.buffer();
+        const arrayBuffer = await imgResponse.arrayBuffer();
+        const imgBuffer = Buffer.from(arrayBuffer);
+
         const metadata = await sharp(imgBuffer).metadata();
         const size = Math.min(metadata.width, metadata.height);
 
