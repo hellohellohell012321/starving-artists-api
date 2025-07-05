@@ -1,0 +1,15 @@
+{
+    "name": "roblox-pixel-api",
+    "version": "1.0.0",
+    "type": "module",
+    "main": "index.js",
+    "scripts": {
+      "dev": "vercel dev",
+      "start": "vercel dev"
+    },
+    "dependencies": {
+      "node-fetch": "^3.4.0",
+      "sharp": "^0.33.0"
+    }
+  }
+  
