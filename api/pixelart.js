@@ -3,14 +3,14 @@ import sharp from 'sharp';
 
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
-        return res.status(405).send('Only POST allowed');
+        return res.status(405).json({ error: 'Only POST allowed' });
     }
 
     try {
         const { imageUrl } = req.body;
 
         if (!imageUrl) {
-            return res.status(400).send('Missing imageUrl');
+            return res.status(400).json({ error: 'Missing imageUrl' });
         }
 
         const imgResponse = await fetch(imageUrl);
@@ -31,25 +31,20 @@ export default async function handler(req, res) {
             .raw()
             .toBuffer();
 
-        const hexColors = [];
-        for (let i = 0; i < squareBuffer.length; i += 4) {
-            const r = squareBuffer[i];
-            const g = squareBuffer[i + 1];
-            const b = squareBuffer[i + 2];
-            hexColors.push(
-              `"${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}"`
-            );
-        }
+            const hexColors = [];
+            for (let i = 0; i < squareBuffer.length; i += 4) {
+                const r = squareBuffer[i];
+                const g = squareBuffer[i + 1];
+                const b = squareBuffer[i + 2];
+                hexColors.push(
+                  `${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`
+                );
+            }
+            
 
-        // Build Lua table string by joining the array with commas and wrapping in {}
-        const luaTableString = `{${hexColors.join(',')}}`;
-
-        // Return plain text response with Lua table string (not JSON)
-        res.setHeader('Content-Type', 'text/plain');
-        return res.status(200).send(luaTableString);
-
+        return res.status(200).json({ pixels: hexColors });
     } catch (err) {
         console.error(err);
-        return res.status(500).send('Image processing failed');
+        return res.status(500).json({ error: 'Image processing failed' });
     }
 }
