@@ -31,11 +31,16 @@ export default async function handler(req, res) {
             .raw()
             .toBuffer();
 
-        const hexColors = [];
-        for (let i = 0; i < squareBuffer.length; i += 4) {
-            const [r, g, b] = [squareBuffer[i], squareBuffer[i + 1], squareBuffer[i + 2]];
-            hexColors.push(`#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`);
-        }
+            const hexColors = [];
+            for (let i = 0; i < squareBuffer.length; i += 4) {
+                const r = squareBuffer[i];
+                const g = squareBuffer[i + 1];
+                const b = squareBuffer[i + 2];
+                hexColors.push(
+                  `${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`
+                );
+            }
+            
 
         return res.status(200).json({ pixels: hexColors });
     } catch (err) {
