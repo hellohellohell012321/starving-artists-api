@@ -1,3 +1,6 @@
+import fetch from 'node-fetch';
+import sharp from 'sharp';
+
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Only POST allowed' });
@@ -6,8 +9,7 @@ export default async function handler(req, res) {
     try {
         let body = req.body;
 
-        // Handle raw JSON strings if needed
-        if (typeof body === "string") {
+        if (typeof body === 'string') {
             body = JSON.parse(body);
         }
 
@@ -47,7 +49,7 @@ export default async function handler(req, res) {
             const g = squareBuffer[i + 1];
             const b = squareBuffer[i + 2];
             hexColors.push(
-                `${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`
+                `${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`
             );
         }
 
