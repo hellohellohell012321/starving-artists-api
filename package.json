@@ -1,14 +1,18 @@
 {
-  "name": "roblox-pixel-api",
+  "name": "starving-artists-api",
   "version": "1.0.0",
-  "type": "module",
+  "description": "Pixel art API for Starving Artists Autodrawer",
   "main": "index.js",
   "scripts": {
-    "dev": "vercel dev",
-    "start": "vercel dev"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
   },
   "dependencies": {
-    "node-fetch": "^3.3.2",
-    "sharp": "^0.33.0"
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "node-fetch": "latest",
+    "sharp": "latest"
   }
 }
